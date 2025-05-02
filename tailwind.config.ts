@@ -1,20 +1,30 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        primary: '#3B82F6', // Bleu doux
+        accent: '#F59E0B', // Orange chaleureux
+        background: '#F3F4F6', // Gris clair
+        error: '#EF4444', // Rouge pour erreurs
+        success: '#10B981', // Vert pour succès
+      },
+      animation: {
+        'bounce-in': 'bounce-in 0.3s ease-out',
+        'fade-in': 'fade-in 0.5s ease-in',
+      },
+      keyframes: {
+        'bounce-in': {
+          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
       },
     },
   },
   plugins: [],
 };
-export default config;

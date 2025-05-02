@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@chatscope/chat-ui-kit-react": "^2.0.3",
+    "@heroicons/react": "^2.2.0",
+    "@hookform/resolvers": "^5.0.1",
     "@prisma/client": "^6.6.0",
+    "@tanstack/react-query": "^5.75.1",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.5.0",
-    "framer-motion": "^12.9.1",
+    "framer-motion": "^12.9.4",
     "imap": "^0.8.19",
     "jose": "^6.0.10",
     "jsonwebtoken": "^9.0.2",
@@ -27,6 +30,7 @@
     "prisma": "^6.6.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.56.1",
     "tsx": "^4.19.3",
     "zod": "^3.24.3"
   },
