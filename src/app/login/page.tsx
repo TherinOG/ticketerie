@@ -38,6 +38,10 @@ export default function LoginPage() {
 
       const result = await response.json();
 
+      if (response.status === 404) {
+        throw new Error('Utilisateur non trouvé');
+      }
+
       if (!response.ok || !result.data.success) {
         throw new Error(result.data.message || 'Échec de la connexion');
       }
@@ -85,7 +89,7 @@ export default function LoginPage() {
               id="email"
               type="email"
               {...register('email')}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition"
+              className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition text-black"
               placeholder="Votre email préféré"
               aria-invalid={errors.email ? 'true' : 'false'}
             />
@@ -107,7 +111,7 @@ export default function LoginPage() {
               id="password"
               type="password"
               {...register('password')}
-              className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition"
+              className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition text-black"
               placeholder="Votre secret"
               aria-invalid={errors.password ? 'true' : 'false'}
             />
