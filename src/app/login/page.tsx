@@ -42,11 +42,11 @@ export default function LoginPage() {
         throw new Error('Utilisateur non trouvé');
       }
 
-      if (!response.ok || !result.data.success) {
-        throw new Error(result.data.message || 'Échec de la connexion');
+      if (!response.ok || response.status !== 200) {
+        throw new Error(result.message || 'Échec de la connexion');
       }
 
-      localStorage.setItem('token', result.data.token);
+      localStorage.setItem('token', result.token);
       router.push('/admin/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue. Réessayez !');
