@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { CalendarIcon, PencilIcon, TagIcon } from '@heroicons/react/24/outline';
+import { CalendarIcon, PencilIcon, TagIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 
@@ -14,6 +14,7 @@ interface EventFormData {
   startDate: string;
   endDate: string;
   status: 'active' | 'expired';
+  maxParticipants: number;
 }
 
 export default function CreateEventPage() {
@@ -143,6 +144,25 @@ export default function CreateEventPage() {
                 type="datetime-local"
                 {...register('endDate')}
                 className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="maxParticipants"
+                className="block text-sm font-medium text-gray-700 flex items-center"
+              >
+                <UserGroupIcon className="w-5 h-5 mr-2 text-primary" />
+                Nombre maximum de participants
+              </label>
+              <motion.input
+                whileFocus={{ scale: 1.02 }}
+                id="maxParticipants"
+                type="number"
+                min="1"
+                {...register('maxParticipants', { valueAsNumber: true })}
+                className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition"
+                placeholder="Nombre max de participants"
               />
             </div>
 
