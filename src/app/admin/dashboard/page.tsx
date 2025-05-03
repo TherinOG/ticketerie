@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { CalendarIcon, UserGroupIcon } from '@heroicons/react/24/outline';
@@ -19,22 +19,45 @@ interface Event {
   updatedAt: string;
 }
 
+interface ApiResponse {
+  events: Event[];
+  message: string;
+  success: boolean;
+}
+
 export default function AdminDashboard() {
-  const { data, isLoading, error } = useQuery<{ data: { events: Event[] } }>({
-    queryKey: ['events'],
-    queryFn: async () => {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/v1/events', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Échec du chargement des événements');
+  const [data, setData] = useState<ApiResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/events', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Échec du chargement des événements');
+        }
+
+        const json = await response.json();
+        setData(json);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Une erreur est survenue');
+      } finally {
+        setIsLoading(false);
       }
-      return response.json();
-    },
-  });
+    }
+
+    fetchEvents();
+  }, []); // Dépendance vide : exécuté une seule fois au montage
 
   return (
     <div className="py-12 px-4 sm:px-6 lg:px-8">
@@ -53,12 +76,12 @@ export default function AdminDashboard() {
 
         {error && (
           <div className="bg-red-100 text-error p-4 rounded-lg text-center mb-6">
-            Une erreur est survenue : {(error as Error).message}
+            Une erreur est survenue : {error}
           </div>
         )}
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {data?.data.events.map((event) => (
+          {data?.events?.map((event) => (
             <Card key={event.id}>
               <h2 className="text-xl font-semibold text-primary">{event.title}</h2>
               <p className="text-gray-600 mt-2">{event.description}</p>
@@ -92,7 +115,7 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {!isLoading && (!data?.data.events || data.data.events.length === 0) && (
+        {!isLoading && (!data?.events || data.events.length === 0) && (
           <div className="text-center text-gray-500 mt-8">
             Aucun événement pour le moment. Créez-en un pour commencer ! 🚀
           </div>
