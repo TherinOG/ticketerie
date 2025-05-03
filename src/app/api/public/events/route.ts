@@ -18,6 +18,7 @@ export async function GET(req: Request) {
         maxParticipants: true,
         createdAt: true,
         updatedAt: true,
+        status: true,
       },
       orderBy: { startDate: 'asc' }, // Trier par date de début
     });
